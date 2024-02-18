@@ -1,0 +1,135 @@
+
+.container {
+  width: 300px;
+  margin: auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header img#header-logo {
+  display: block;
+  margin: 0 auto 20px; /* Adjust margin as needed */
+  max-width: 100%; /* Ensures the image is responsive */
+  height: auto;
+  width: 200px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h2 {
+  color: #666;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin:0;
+}
+
+label {
+  display: block;
+  margin: 0px 0 5px;
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.select,
+.checkbox {
+  margin: 10px 0;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox input {
+  margin-right: 10px;
+}
+
+button#ask-video {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button#ask-video:hover {
+  background-color: #0056b3;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Adjust spacing between fields */
+}
+
+.field label {
+  margin: 0;
+  flex-basis: 40%; /* Adjust label width */
+  flex-shrink: 0; /* Prevent label from shrinking */
+}
+
+.field select,
+.field input[type=range],
+.field input[type=checkbox] {
+  flex-basis: 55%; /* Adjust input/select width */
+  /* For checkboxes, you might need additional styling */
+}
+
+.checkbox label {
+  flex-grow: 1;
+}
+
+.checkbox input {
+  flex-shrink: 0;
+}
+
+.field select {
+  flex-basis: 55%;
+  padding: 5px 8px; /* Adjust padding for better appearance */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 4px; /* Rounded corners for a modern look */
+  background-color: #fff; /* Background color */
+  -webkit-appearance: none; /* Remove default style on WebKit browsers */
+  -moz-appearance: none; /* Remove default style on Mozilla browsers */
+  appearance: none; /* Standard way to remove default style */
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  outline: none; /* Remove focus outline */
+}
+
+/* Style for hosting the custom arrow icon */
+.field select {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23007bff" d="M5.22 7.22a.75.75 0 011.06 0L10 10.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 8.28a.75.75 0 010-1.06z"/></svg>'); /* SVG for the arrow down icon */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Position the arrow icon */
+  background-size: 12px; /* Size of the arrow icon */
+}
+
+/* Specific style adjustments for different states */
+.field select:hover {
+  border-color: #007bff; /* Highlight border on hover */
+}
+
+.field select:focus {
+  border-color: #0056b3; /* Different border color on focus for accessibility */
+  box-shadow: 0 0 0 1px #0056b3; /* Add focus shadow for better visibility */
+}
+
+/* Ensure select elements are properly aligned and styled within the layout */
+.field {
+  position: relative; /* Setup position context for pseudo-elements */
+}
+
+.checkbox label {
+  margin-top: 5px;
+}

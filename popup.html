@@ -1,0 +1,76 @@
+<link href="popup.css" rel="stylesheet" type="text/css" />
+<script type="module" src="popup.js"></script>
+
+<div class="container">
+  <div class="header">
+    <img src="assets/image.png" alt="Video Description Settings Logo" id="header-logo">
+  </div>
+  <section class="section" id="speech-parameters">
+      <h2>Speech Parameters</h2>
+      <div class="field">
+        <label for="voice-selection">Voice Selection</label>
+        <select id="voice-selection">
+            <option value="default">Alloy</option>
+            <option value="default">Echo</option>
+            <option value="default">Fable</option>
+            <option value="default" selected>Onyx</option>
+            <option value="default">Nova</option>
+            <option value="default">Shimmer</option>
+        </select>
+      </div>
+
+      <label for="speech-rate">Speech Rate</label>
+      <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
+
+      <label for="volume-control">Volume Control</label>
+      <input type="range" id="volume-control" min="0" max="100" step="1" value="100">
+
+      <div class="checkbox">
+          <input type="checkbox" id="use-native">
+          <label for="use-native">Use native from browser</label>
+      </div>
+  </section>
+
+  <section class="section" id="description">
+      <h2>Description</h2>      
+      <div class="field">
+        <label for="detail-level">Detail level</label>
+        <select id="detail-level">
+            <option value="basic">Basic</option>
+            <option value="standard" selected>Standard</option>
+            <option value="high">High</option>
+        </select>
+      </div>
+
+      <div class="checkbox">
+          <input type="checkbox" id="focus-physical">
+          <label for="focus-physical">Focus on physical appearances</label>
+      </div>
+
+      <div class="checkbox">
+          <input type="checkbox" id="focus-emotions">
+          <label for="focus-emotions">Focus on people's emotions</label>
+      </div>
+      <div class="field">
+        <label for="interruption-frequency">Interruption frequency</label>
+        <select id="interruption-frequency">
+            <option value="minimal">Minimal</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="maximum">Maximum</option>
+        </select>
+      </div>
+<!-- 
+      <div class="checkbox">
+          <input type="checkbox" id="overview-before-video">
+          <label for="overview-before-video">Overview before the video</label>
+      </div>
+
+      <div class="checkbox">
+          <input type="checkbox" id="alerts-scene-transitions">
+          <label for="alerts-scene-transitions">Alerts for scene transitions</label>
+      </div> -->
+  </section>
+
+  <button id="ask-video">Ask the Video</button>
+</div>
+

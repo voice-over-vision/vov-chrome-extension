@@ -1,0 +1,42 @@
+{
+    "name": "Voice-Over Vision",
+    "version": "1.0.0",
+    "description": "Your vision assistant for YouTube",
+    "permissions": ["tabs", "https://api.openai.com/*", "*"],
+    "host_permissions": ["https://*.youtube.com/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    
+    "content_scripts": [
+        {
+            "matches": ["*://www.youtube.com/watch*"],
+            "js": ["config.js", "contentScript.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/plus.png",
+          "assets/plus2.png",
+          "assets/logo.svg",
+          "assets/description-audio.mp3",
+          "assets/on.mp3",
+          "assets/off.mp3"
+        ],
+        "matches": ["https://*.youtube.com/*"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/icon.png",
+        "24": "assets/icon.png",
+        "32": "assets/icon.png"
+      },
+      "default_title": "Voice-Over Vision",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+  }
+  
