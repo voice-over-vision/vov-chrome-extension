@@ -27,7 +27,7 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 
 ### Steps
 
-1. **Clone the repository**: `git clone <repository-url>`.
+1. **Clone the repository**: `git clone https://github.com/voice-over-vision/vov-chrome-extension.git`.
 2. **Run the back-end server**: Navigate to the [back-end repository](https://github.com/guilherme-francisco/winter_hackaton_backend) and follow the instructions to get it running on `localhost:8000`.
 3. **Configure the extension**:
    - Navigate to the root directory of the cloned extension.
