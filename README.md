@@ -1,6 +1,6 @@
 # 👁️ Voice-Over Vision
 
-Voice-Over Vision transforms YouTube watching for the visually impaired, making every video more accessible and enjoyable. Like a friend whispering in your ear, this Chrome Extension narrates the unseen parts of a video, filling in the blanks where audio alone falls short. It smartly sifts through videos, picking out details that you might miss otherwise, and uses text-to-speech technology to bring those visuals to life through vivid descriptions. With Voice-Over Vision, every story is fully told, ensuring everyone gets the complete picture, no matter what.
+Voice-Over Vision transforms YouTube watching for the visually impaired, making every video more accessible and enjoyable. Like a friend sitting next to you, this Chrome Extension narrates the unseen parts of a video, filling in the blanks where audio alone falls short. It smartly sifts through videos, picking out details that you might miss otherwise, and uses text-to-speech technology to bring those visuals to life through vivid descriptions. With Voice-Over Vision, every story is fully told, ensuring everyone gets the complete picture, no matter what.
 
 <p align="center">
  <a href="#features">Features</a> •
@@ -27,7 +27,7 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 
 ### Steps
 
-1. **Clone the repository**: `git clone <repository-url>`.
+1. **Clone the repository**: `git clone https://github.com/voice-over-vision/vov-chrome-extension.git`.
 2. **Run the back-end server**: Navigate to the [back-end repository](https://github.com/guilherme-francisco/winter_hackaton_backend) and follow the instructions to get it running on `localhost:8000`.
 3. **Configure the extension**:
    - Navigate to the root directory of the cloned extension.
