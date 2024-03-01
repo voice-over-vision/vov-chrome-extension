@@ -47,7 +47,7 @@
                     console.log("Current video time:", currentTime);
                     descriptionDataToPlay.data.forEach((item, _) => {
                         if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp) {
-                            console.log("Playing preloaded audio now");
+                            console.log("Playing audio now");
                             youtubePlayer.pause();
                             playAudio(base64StringToArrayBuffer(item['audio_description']), () => {
                                 console.log("Audio finished playing. Resuming video playback...");
@@ -131,33 +131,6 @@
 
         console.log("Description button clicked! Description state is now:", descriptionState);
         updateButtonIcon();
-    };
-
-
-    // Fetches and plays the description audio
-    const playDescriptionAudio = (description) => {
-        const openAiApiKey = config.openAiApiKey;
-        const apiUrl = 'https://api.openai.com/v1/audio/speech';
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${openAiApiKey}`
-            },
-            body: JSON.stringify({
-                model: "tts-1",
-                voice: "alloy",
-                input: description,
-            })
-        })
-            .then(response => response.ok ? response.arrayBuffer() : Promise.reject('Network response was not ok.'))
-            .then(arrayBuffer => playAudio(arrayBuffer, () => {
-                // Resume video playback after the audio finishes
-                console.log("Audio finished playing. Resuming video playback...");
-                youtubePlayer.play();
-            }))
-            .catch(error => console.error('Error:', error));
     };
 
     const newVideoLoaded = () => {
