@@ -11,36 +11,6 @@
     let lastVideoTime = -1; // Add this to track the last played timestamp
     let descriptionDataToPlay = { 'data': [] };
 
-    // Initialize an array of preloadedAudios with nulls
-    let preloadedAudios = new Array(descriptionDataToPlay.data.length).fill(null);
-    let preloadedAudiosStatus = new Array(descriptionDataToPlay.data.length).fill(null);
-
-    // Pre-loads the audio buffer for a specific index
-    const preloadDescriptionAudio = (index, description) => {
-        if (preloadedAudios[index]) return; // If already preloaded, do nothing
-
-        const openAiApiKey = config.openAiApiKey;
-        const apiUrl = 'https://api.openai.com/v1/audio/speech';
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${openAiApiKey}`
-            },
-            body: JSON.stringify({
-                model: "tts-1",
-                voice: "alloy",
-                input: description,
-            })
-        })
-            .then(response => response.ok ? response.arrayBuffer() : Promise.reject('Network response was not ok.'))
-            .then(arrayBuffer => {
-                preloadedAudios[index] = arrayBuffer; // Store preloaded audio at the correct index
-            })
-            .catch(error => console.error('Error:', error));
-    };
-
     const loadDescriptionDataToPlay = (youtubeID) => {
         const apiUrl = `http://127.0.0.1:8000/get_audio_description/?youtubeID=${youtubeID}`;
 
@@ -58,6 +28,14 @@
             .catch(error => console.error('Error:', error));
     };
 
+    const base64StringToArrayBuffer = (base64) => {
+        var binaryString = atob(base64);
+        var bytes = new Uint8Array(binaryString.length);
+        for (var i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
 
     // Adjusted interval logic to preload and play description audio
     const startLoggingVideoTime = () => {
@@ -67,17 +45,11 @@
                 if (descriptionState) {
                     const currentTime = youtubePlayer.currentTime;
                     console.log("Current video time:", currentTime);
-                    descriptionDataToPlay.data.forEach((item, index) => {
-                        if (currentTime >= item.start_timestamp - 10 && currentTime < item.start_timestamp && !preloadedAudios[index] && preloadedAudiosStatus[index] !== "preloading") {
-                            console.log("Preloading audio for timestamp: ", item.start_timestamp);
-                            preloadDescriptionAudio(index, item.description);
-                            preloadedAudiosStatus[index] = "preloading"; // Update preloaded audio status
-                        }
-
-                        if (preloadedAudios[index] && currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp) {
-                            console.log("Playing preloaded audio now");
+                    descriptionDataToPlay.data.forEach((item, _) => {
+                        if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp) {
+                            console.log("Playing audio now");
                             youtubePlayer.pause();
-                            playAudio(preloadedAudios[index], () => {
+                            playAudio(base64StringToArrayBuffer(item['audio_description']), () => {
                                 console.log("Audio finished playing. Resuming video playback...");
                                 youtubePlayer.play();
                             });
@@ -159,33 +131,6 @@
 
         console.log("Description button clicked! Description state is now:", descriptionState);
         updateButtonIcon();
-    };
-
-
-    // Fetches and plays the description audio
-    const playDescriptionAudio = (description) => {
-        const openAiApiKey = config.openAiApiKey;
-        const apiUrl = 'https://api.openai.com/v1/audio/speech';
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${openAiApiKey}`
-            },
-            body: JSON.stringify({
-                model: "tts-1",
-                voice: "alloy",
-                input: description,
-            })
-        })
-            .then(response => response.ok ? response.arrayBuffer() : Promise.reject('Network response was not ok.'))
-            .then(arrayBuffer => playAudio(arrayBuffer, () => {
-                // Resume video playback after the audio finishes
-                console.log("Audio finished playing. Resuming video playback...");
-                youtubePlayer.play();
-            }))
-            .catch(error => console.error('Error:', error));
     };
 
     const newVideoLoaded = () => {

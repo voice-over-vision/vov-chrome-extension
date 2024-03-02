@@ -31,12 +31,7 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 2. **Run the back-end server**: Navigate to the [back-end repository](https://github.com/guilherme-francisco/winter_hackaton_backend) and follow the instructions to get it running on `localhost:8000`.
 3. **Configure the extension**:
    - Navigate to the root directory of the cloned extension.
-   - Edit the `config.js` file with your OpenAI API key as follows:
-     ```javascript
-     const config = {
-       openAiApiKey: "YOUR_API_KEY",
-     };
-     ```
+
 4. **Load the extension in Chrome** (detailed information [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)):
    - Open the _Manage Extensions_ page by navigating to `chrome://extensions/` in your Chrome browser.
    - Enable _Developer mode_ by toggling the switch at the top-right corner.
