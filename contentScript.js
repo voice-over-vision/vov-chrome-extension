@@ -10,23 +10,62 @@
     const descriptionOffAudio = new Audio(chrome.runtime.getURL("assets/off.mp3"));
     let lastVideoTime = -1; // Add this to track the last played timestamp
     let descriptionDataToPlay = { 'data': [] };
+    
+    const EventTypes =  {
+        INITIAL_MESSAGE: "INITIAL_MESSAGE",
+        PAUSE_MOMENTS: "PAUSE_MOMENTS",
+        AUDIO_DESCRIPTION: "AUDIO_DESCRIPTION"
+    }
 
-    const loadDescriptionDataToPlay = (youtubeID) => {
-        const apiUrl = `http://127.0.0.1:8000/get_audio_description/?youtubeID=${youtubeID}`;
+    const createProgressBar = (time, index, color) => {
+        const youtubeProgressList = document.getElementsByClassName("ytp-progress-list")[0];
+        const pauseMomentBar = document.createElement("div");
+        const timeToPixel = (3 * time);
 
-        fetch(apiUrl)
-            .then(async response => {
-                data = (await response.json())['data'];
-                console.log(data);
-                if (response.ok) {
-                    descriptionDataToPlay = { 'data': data };
-                    console.log(descriptionDataToPlay)
-                } else {
-                    console.log('Network response was not ok.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    };
+        pauseMomentBar.style = `left: ${timeToPixel}px; transform: scaleX(0.008); background: ${color};`;
+        pauseMomentBar.className = `ytp-load-progress pauseMoment-${index}`;
+        pauseMomentBar.tabIndex = 0;
+        youtubeProgressList.insertBefore(pauseMomentBar, youtubeProgressList.firstChild);
+    }
+
+    const showPauseMoments = (pauseMoments) => {
+        pauseMoments.forEach((pauseMoment, index) => {
+            createProgressBar(pauseMoment, index, "rgba(255, 216, 5, 0.86)");
+        })
+    }
+
+    handleAudioDescriptionEvent = (data) => {
+        console.log("Handling audio description event")
+        console.log(data)
+        descriptionDataToPlay.data.push(data);
+        createProgressBar(data['start_timestamp'], data['id'], "#2b00f9")
+    }
+
+    const connectWithBackend = (youtubeID) => {
+        url = "ws://127.0.0.1:8000/";
+        webSocket = new WebSocket(url);
+        webSocket.onopen = () => {
+            webSocket.send(JSON.stringify({ "event": EventTypes.INITIAL_MESSAGE, 
+                "youtubeID": youtubeID, 
+                "currentTime": youtubePlayer.currentTime }));
+        };
+
+        webSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log("Message from WS: ")
+            console.log(data)
+            const event = data['event'];
+            // Handle incoming message
+            switch (event) {
+                case EventTypes.PAUSE_MOMENTS:
+                    showPauseMoments(data['pause_moments']);
+                    break;
+                case EventTypes.AUDIO_DESCRIPTION:
+                    handleAudioDescriptionEvent(data)
+            }
+        };
+        
+    }
 
     const base64StringToArrayBuffer = (base64) => {
         var binaryString = atob(base64);
@@ -164,7 +203,7 @@
             youtubePlayer.pause()
             const videoId = getYouTubeVideoId();
             console.log("Current YouTube Video ID:", videoId);
-            loadDescriptionDataToPlay(videoId);
+            connectWithBackend(videoId);
         }
     };
     // Shortcut to toggle the description feature
