@@ -19,13 +19,21 @@
 
     const createProgressBar = (time, index, color) => {
         const youtubeProgressList = document.getElementsByClassName("ytp-progress-list")[0];
-        const pauseMomentBar = document.createElement("div");
-        const timeToPixel = (3 * time);
+        const progressBarWidth = youtubeProgressList.offsetWidth;
 
-        pauseMomentBar.style = `left: ${timeToPixel}px; transform: scaleX(0.008); background: ${color};`;
+        // Get the duration of the video from the YouTube player
+        const videoDuration = youtubePlayer.duration;
+    
+        // Calculate time per pixel
+        const timePerPixel = videoDuration / progressBarWidth;
+    
+        // Calculate position of marker based on time per pixel
+        const timeToPixel = time / timePerPixel;
+    
+        const pauseMomentBar = document.createElement("div");
+        pauseMomentBar.style = `left: ${timeToPixel}px; background: ${color}; transform: scaleX(0.008);`;
         pauseMomentBar.className = `ytp-load-progress pauseMoment-${index}`;
-        pauseMomentBar.tabIndex = 0;
-        youtubeProgressList.insertBefore(pauseMomentBar, youtubeProgressList.firstChild);
+        youtubeProgressList.appendChild(pauseMomentBar);
     }
 
     const showPauseMoments = (pauseMoments) => {
@@ -38,7 +46,7 @@
         console.log("Handling audio description event")
         console.log(data)
         descriptionDataToPlay.data.push(data);
-        createProgressBar(data['start_timestamp'], data['id'], "#2b00f9")
+        createProgressBar(data['start_timestamp'], data['id'], "#ffff00")
     }
 
     const connectWithBackend = (youtubeID) => {
@@ -87,10 +95,18 @@
                     descriptionDataToPlay.data.forEach((item, _) => {
                         if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp) {
                             console.log("Playing audio now");
-                            youtubePlayer.pause();
+                            if(item['action'] == 'play') {
+                                youtubePlayer.playbackRate = item['video_speed']
+                                youtubePlayer.muted = true
+                            } else youtubePlayer.pause();
+                        
                             playAudio(base64StringToArrayBuffer(item['audio_description']), () => {
                                 console.log("Audio finished playing. Resuming video playback...");
                                 youtubePlayer.play();
+                                if(item['action'] == 'play'){
+                                     youtubePlayer.muted = false
+                                     youtubePlayer.playbackRate = 1
+                                }
                             });
 
                         }
