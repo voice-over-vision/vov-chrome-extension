@@ -20,7 +20,9 @@
         "resources": [
           "assets/ask_the_video.mp3",
           "assets/on.mp3",
-          "assets/off.mp3"
+          "assets/off.mp3",
+          "assets/loading.mp3",
+          "assets/loadingCompleted.mp3"
         ],
         "matches": ["https://*.youtube.com/*"]
       }

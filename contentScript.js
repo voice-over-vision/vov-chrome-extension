@@ -9,15 +9,19 @@
     const askTheVideoAudio = new Audio(chrome.runtime.getURL("assets/ask_the_video.mp3"));
     const descriptionOnAudio = new Audio(chrome.runtime.getURL("assets/on.mp3"));
     const descriptionOffAudio = new Audio(chrome.runtime.getURL("assets/off.mp3"));
+    const loadingAudio  = new Audio(chrome.runtime.getURL("assets/loading.mp3"));
+    const loadingCompletedAudio = new Audio(chrome.runtime.getURL("assets/loadingCompleted.mp3"));
     let lastVideoTime = -1; // Add this to track the last played timestamp
     let descriptionDataToPlay = { 'data': [] };
     let force_volume_down = false
+    let pauseMoments = [];
+    let forcePaused = false; // checking if the video was paused because it was waiting for backend
 
-    const EventTypes = {
+    const EventTypes =  {
         INITIAL_MESSAGE: "INITIAL_MESSAGE",
         PAUSE_MOMENTS: "PAUSE_MOMENTS",
         AUDIO_DESCRIPTION: "AUDIO_DESCRIPTION"
-    }
+    };
 
     const createProgressBar = (time, index, color) => {
         const youtubeProgressList = document.getElementsByClassName("ytp-progress-list")[0];
@@ -38,42 +42,53 @@
         youtubeProgressList.appendChild(pauseMomentBar);
     }
 
-    const showPauseMoments = (pauseMoments) => {
+    const showPauseMoments = () => {
         pauseMoments.forEach((pauseMoment, index) => {
-            createProgressBar(pauseMoment, index, "rgba(255, 216, 5, 0.86)");
+            createProgressBar(pauseMoment, index, "#ffff00");
         })
     }
 
-    handleAudioDescriptionEvent = (data) => {
-        console.log("Handling audio description event")
-        console.log(data)
+    handleAudioDescriptionEvent = async (data) => {
+        if(data['id'] == 0) {  // if its the first, continue the video
+            if(data['is_already_processed']) await new Promise(r => setTimeout(r, 2000));
+            playAudioDuringVideo(loadingCompletedAudio, () => { youtubePlayer.play() });
+        }
+        console.log("Handling audio description event");
+        console.log(data);
         descriptionDataToPlay.data.push(data);
-        createProgressBar(data['start_timestamp'], data['id'], "#ffff00")
+        pauseMoments.filter(pauseMoment => pauseMoment == data['start_timestamp']);
+        if(forcePaused) {
+            youtubePlayer.play();
+            forcePaused = false;
+        }
+        createProgressBar(data['start_timestamp'], data['id'], "#12ff05");
     }
 
     const connectWithBackend = (youtubeID) => {
         url = "ws://127.0.0.1:8000/";
         webSocket = new WebSocket(url);
         webSocket.onopen = () => {
-            webSocket.send(JSON.stringify({
-                "event": EventTypes.INITIAL_MESSAGE,
-                "youtubeID": youtubeID,
-                "currentTime": youtubePlayer.currentTime
+            playAudioDuringVideo(loadingAudio);
+            webSocket.send(JSON.stringify({ 
+                "event": EventTypes.INITIAL_MESSAGE, 
+                "youtubeID": youtubeID, 
+                "currentTime": youtubePlayer.currentTime 
             }));
         };
 
         webSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log("Message from WS: ")
-            console.log(data)
+            console.log("Message from WS: ");
+            console.log(data);
             const event = data['event'];
             // Handle incoming message
             switch (event) {
                 case EventTypes.PAUSE_MOMENTS:
-                    showPauseMoments(data['pause_moments']);
+                    pauseMoments = data['pause_moments'];
+                    showPauseMoments();
                     break;
                 case EventTypes.AUDIO_DESCRIPTION:
-                    handleAudioDescriptionEvent(data)
+                    handleAudioDescriptionEvent(data);
             }
         };
 
@@ -95,7 +110,13 @@
             if (youtubePlayer) {
                 if (descriptionState) {
                     const currentTime = youtubePlayer.currentTime;
-                    // console.log("Current video time:", currentTime);
+                    console.log("Current video time:", currentTime);
+                    pauseMoments.forEach((item, _) => {
+                        if(currentTime >= item && lastVideoTime < item) {
+                            youtubePlayer.pause();
+                            forcePaused = true;
+                        }
+                    })
                     descriptionDataToPlay.data.forEach((item, _) => {
                         if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp && Math.abs(currentTime - lastVideoTime) < 2) {
                             console.log("Playing audio now");
@@ -199,7 +220,7 @@
         return urlParams.get('v');
     };
 
-    const playAudioDuringVideo = (audioToPlay) => {
+    const playAudioDuringVideo = (audioToPlay, callback) => {
 
         const wasPlaying = !youtubePlayer.paused;
 
@@ -215,6 +236,9 @@
             // Resume video playback only if the video was playing before
             if (wasPlaying) {
                 youtubePlayer.play();
+            }
+            if(callback != null) {
+                callback();
             }
         };
     }
