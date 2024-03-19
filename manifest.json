@@ -18,7 +18,7 @@
     "web_accessible_resources": [
       {
         "resources": [
-          "assets/description-audio.mp3",
+          "assets/ask_the_video.mp3",
           "assets/on.mp3",
           "assets/off.mp3"
         ],
