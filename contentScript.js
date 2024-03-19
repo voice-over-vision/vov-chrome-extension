@@ -50,7 +50,7 @@
 
     handleAudioDescriptionEvent = async (data) => {
         if(data['id'] == 0) {  // if its the first, continue the video
-            if(data['is_already_processed']) await new Promise(r => setTimeout(r, 2000));
+            if(pauseMoments.length == 0) await new Promise(r => setTimeout(r, 2000));
             playAudioDuringVideo(loadingCompletedAudio, () => { youtubePlayer.play() });
         }
         console.log("Handling audio description event");
