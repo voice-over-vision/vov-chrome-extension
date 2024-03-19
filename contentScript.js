@@ -127,22 +127,59 @@
 
     // Global audio context to reuse it efficiently
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let gainNode = audioContext.createGain();
+
+    const updateVolume = () => {
+        const currentVolume = youtubePlayer.muted ? 0 : youtubePlayer.volume;
+        askTheVideoAudio.volume = currentVolume;
+        descriptionOnAudio.volume = currentVolume;
+        descriptionOffAudio.volume = currentVolume;
+        // Update the gainNode's volume
+        if (gainNode) gainNode.gain.value = currentVolume;
+    };
+
+    // Call updateVolume periodically or in response to specific events
+    setInterval(updateVolume, 1000); // Example: update every second
 
     const playAudio = (arrayBuffer, callback) => {
-        // Decode the ArrayBuffer into an AudioBuffer each time before playing
+        console.log("youtube player muted: ", youtubePlayer.muted)
+        if (youtubePlayer.muted) {
+            console.log("Player is muted. Skipping audio playback.");
+            callback(); // Call the callback immediately to continue the logic without playing sound
+            return;
+        }
+
         audioContext.decodeAudioData(arrayBuffer.slice(0), (audioBuffer) => {
             const source = audioContext.createBufferSource();
             source.buffer = audioBuffer;
-            source.connect(audioContext.destination);
+            // Connect source to gain node instead of directly to destination
+            source.connect(gainNode);
+            // Connect gain node to audio context destination
+            gainNode.connect(audioContext.destination);
             source.start(0);
             source.onended = () => {
-                callback(); // Call the callback function after the audio finishes playing
-                // Consider if you need to close or manage the AudioContext lifecycle here
+                callback(); // Callback after audio finishes playing
             };
         }, (error) => {
             console.error('Error decoding audio data:', error);
         });
     };
+
+    // const playAudio = (arrayBuffer, callback) => {
+    //     // Decode the ArrayBuffer into an AudioBuffer each time before playing
+    //     audioContext.decodeAudioData(arrayBuffer.slice(0), (audioBuffer) => {
+    //         const source = audioContext.createBufferSource();
+    //         source.buffer = audioBuffer;
+    //         source.connect(audioContext.destination);
+    //         source.start(0);
+    //         source.onended = () => {
+    //             callback(); // Call the callback function after the audio finishes playing
+    //             // Consider if you need to close or manage the AudioContext lifecycle here
+    //         };
+    //     }, (error) => {
+    //         console.error('Error decoding audio data:', error);
+    //     });
+    // };
 
 
     const updateButtonIcon = () => {
