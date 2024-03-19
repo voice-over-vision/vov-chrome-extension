@@ -2,7 +2,7 @@
     "name": "Voice-Over Vision",
     "version": "1.0.0",
     "description": "Your vision assistant for YouTube",
-    "permissions": ["tabs", "https://api.openai.com/*", "*"],
+    "permissions": ["tabs", "*"],
     "host_permissions": ["https://*.youtube.com/*"],
     "background": {
       "service_worker": "background.js"
