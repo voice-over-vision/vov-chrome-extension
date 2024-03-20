@@ -232,7 +232,7 @@
         videoID = getYouTubeVideoId();
         const apiUrl = `http://127.0.0.1:8000/ask-the-video?youtubeID=${videoID}&timestamp=${youtubePlayer.currentTime}&question=${message}`;
         const response = await fetch(apiUrl);
-        return (await response.json())['answer'];
+        return (await response.json());
     }
     // Function to create chat UI elements
     const createChatUI = () => {
@@ -289,7 +289,8 @@
                     
                     response = await askTheVideoRequest(message);
                     const responseMessageElement = document.createElement("div");
-                    responseMessageElement.textContent = response;
+                    responseMessageElement.textContent = response['answer'];
+                    playAudio(base64StringToArrayBuffer(response['audio_description']), () => {});
                     responseMessageElement.style = "margin-bottom: 10px; font-size:12px; background-color: #007bff; padding: 10px; border-radius: 4px; text-align: left; color: white; width: fit-content; margin-right: auto;";
                     chatDisplay.appendChild(responseMessageElement);
                     chatDisplay.scrollTop = chatDisplay.scrollHeight;
