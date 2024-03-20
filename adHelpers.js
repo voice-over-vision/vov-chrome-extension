@@ -13,7 +13,7 @@ const addCheck = ()=>{
 }
 
 const executeAfterAds = (video, callback) => {
-    
+
     const handleAdFinish = () => {
         console.log("Ad finished")
         video.removeEventListener('durationchange', handleAdFinish);
@@ -22,9 +22,9 @@ const executeAfterAds = (video, callback) => {
 
     const handleVideoPlaying = () => {
         console.log("Video has started playing.");
-        hasAdd = addCheck()
+        hasAd = addCheck()
         
-        if(hasAdd){
+        if(hasAd){
             video.addEventListener('durationchange', handleAdFinish);
         } else {
             console.log("Executing callback")
