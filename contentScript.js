@@ -96,7 +96,7 @@
                     const currentTime = youtubePlayer.currentTime;
                     // console.log("Current video time:", currentTime);
                     descriptionDataToPlay.data.forEach((item, _) => {
-                        if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp) {
+                        if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp && Math.abs(currentTime - lastVideoTime) < 2) {
                             console.log("Playing audio now");
                             if (item['action'] == 'play') {
                                 youtubePlayer.playbackRate = item['video_speed']
