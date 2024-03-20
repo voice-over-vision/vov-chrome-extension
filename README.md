@@ -54,7 +54,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
    - Open the _Manage Extensions_ page by navigating to [chrome://extensions/](chrome://extensions/) in your Chrome browser.
     <br/><br/>
     <img src="./assets/readme/chrome_ext_domain.png" style="padding:15px 0;" width="380px"/>
-    <br/>
+    <br/><br/>
    - Enable _Developer mode_ by toggling the switch at the top-right corner.
     <br/><br/>
     <img src="./assets/readme/chrome_dev_mode.png" style="margin:15px 0;" width="220px"/>
