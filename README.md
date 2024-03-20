@@ -22,6 +22,7 @@ We present **Voice-Over Vision**, a tool that transforms YouTube watching for th
 
 - **Real-Time Audio Description**: Generates audio descriptions for YouTube videos, offering a comprehensive viewing experience for visually impaired users.
 - **Ask The Video**: Answers questions about the video at any time. With just the click of a button (or a keyboard shortcut), the video pauses and a chat opens to clarify any and all questions about the video!
+- **More comming soon!**
 
 <details>
 <summary>Work In Progress</summary>
