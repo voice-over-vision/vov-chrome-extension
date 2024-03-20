@@ -228,6 +228,12 @@
         updateButtonIcon();
     };
 
+    const askTheVideoRequest = async (message) => {
+        videoID = getYouTubeVideoId();
+        const apiUrl = `http://127.0.0.1:8000/ask-the-video?youtubeID=${videoID}&timestamp=${youtubePlayer.currentTime}&question=${message}`;
+        const response = await fetch(apiUrl);
+        return (await response.json())['answer'];
+    }
     // Function to create chat UI elements
     const createChatUI = () => {
         // Chat container
@@ -267,7 +273,7 @@
             return;
         }
 
-        chatInput.addEventListener("keydown", (e) => {
+        chatInput.addEventListener("keydown", async (e) => {
             if (e.key === "Enter" || e.keyCode === 13) {
                 e.preventDefault();
                 const message = chatInput.value.trim();
@@ -280,17 +286,13 @@
 
                     chatInput.value = "";
                     chatDisplay.scrollTop = chatDisplay.scrollHeight;
-
-                    // 1s timeout
-                    setTimeout(() => {
-                        // Simulated response (left-aligned with blue background)
-                        const responseMessageElement = document.createElement("div");
-                        responseMessageElement.textContent = "This is a simulated response.";
-                        responseMessageElement.style = "margin-bottom: 10px; font-size:12px; background-color: #007bff; padding: 10px; border-radius: 4px; text-align: left; color: white; width: fit-content; margin-right: auto;";
-                        chatDisplay.appendChild(responseMessageElement);
-
-                        chatDisplay.scrollTop = chatDisplay.scrollHeight;
-                    }, 1000);
+                    
+                    response = await askTheVideoRequest(message);
+                    const responseMessageElement = document.createElement("div");
+                    responseMessageElement.textContent = response;
+                    responseMessageElement.style = "margin-bottom: 10px; font-size:12px; background-color: #007bff; padding: 10px; border-radius: 4px; text-align: left; color: white; width: fit-content; margin-right: auto;";
+                    chatDisplay.appendChild(responseMessageElement);
+                    chatDisplay.scrollTop = chatDisplay.scrollHeight;
                 }
             } else if (e.ctrlKey && (e.key === 'q' || e.key === 'Q')) {
                 e.preventDefault();
