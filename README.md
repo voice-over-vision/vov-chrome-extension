@@ -56,6 +56,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
     <img src="./assets/readme/chrome_ext_domain.png" style="padding:15px 0;" width="380px"/>
    - Enable _Developer mode_ by toggling the switch at the top-right corner.
     <br/>
+    <br/>
     <img src="./assets/readme/chrome_dev_mode.png" style="margin:15px 0;" width="220px"/>
    - Click on _Load unpacked_ and select the directory of your cloned repository.
     <br/>
