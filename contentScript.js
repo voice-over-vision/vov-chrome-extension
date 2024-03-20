@@ -11,6 +11,7 @@
     const descriptionOffAudio = new Audio(chrome.runtime.getURL("assets/off.mp3"));
     let lastVideoTime = -1; // Add this to track the last played timestamp
     let descriptionDataToPlay = { 'data': [] };
+    let force_volume_down = false
 
     const EventTypes = {
         INITIAL_MESSAGE: "INITIAL_MESSAGE",
@@ -100,15 +101,17 @@
                             console.log("Playing audio now");
                             if (item['action'] == 'play') {
                                 youtubePlayer.playbackRate = item['video_speed']
-                                youtubePlayer.muted = true
+                                current_volume = youtubePlayer.volume;
+                                force_volume_down = true;
+                                youtubePlayer.volume = 0;
                             } else youtubePlayer.pause();
 
                             playAudio(base64StringToArrayBuffer(item['audio_description']), () => {
                                 console.log("Audio finished playing. Resuming video playback...");
                                 youtubePlayer.play();
                                 if (item['action'] == 'play') {
-                                    youtubePlayer.muted = false
                                     youtubePlayer.playbackRate = 1
+                                    youtubePlayer.volume = currentVolume;
                                 }
                             });
 
@@ -130,6 +133,10 @@
     let gainNode = audioContext.createGain();
 
     const updateVolume = () => {
+        if(force_volume_down) {
+            force_volume_down = false;
+            return;
+        }
         const currentVolume = youtubePlayer.muted ? 0 : youtubePlayer.volume;
         askTheVideoAudio.volume = currentVolume;
         descriptionOnAudio.volume = currentVolume;
@@ -137,9 +144,6 @@
         // Update the gainNode's volume
         if (gainNode) gainNode.gain.value = currentVolume;
     };
-
-    // Call updateVolume periodically or in response to specific events
-    setInterval(updateVolume, 1000); // Example: update every second
 
     const playAudio = (arrayBuffer, callback) => {
         console.log("youtube player muted: ", youtubePlayer.muted)
@@ -351,6 +355,8 @@
 
             youtubeLeftControls = document.getElementsByClassName("ytp-right-controls")[0];
             youtubePlayer = document.getElementsByClassName("video-stream")[0];
+            youtubePlayer.addEventListener('volumechange', updateVolume)
+
             youtubeLeftControls.insertBefore(questionBtn, youtubeLeftControls.firstChild);
             youtubeLeftControls.insertBefore(describeBtn, youtubeLeftControls.firstChild);
 
