@@ -74,7 +74,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
   <tbody>
     <tr>
       <td align="center" width=15%>
-        <a href="https://github.com/DaviGiordano">
+        <a href="https://github.com/DaviGiordano" style="text-decoration: none;">
           <img src="https://github.com/DaviGiordano.png" width="100%;" style="max-width:150px" alt="Davi Giordano"/>
           <br/>
           <sub><b>Davi Giordano</b></sub>
@@ -82,7 +82,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
         <br />
       </td>
       <td align="center" width=15%>
-        <a href="https://github.com/guilherme-francisco">
+        <a href="https://github.com/guilherme-francisco" style="text-decoration: none;">
           <img src="https://github.com/guilherme-francisco.png" width="100%;" style="max-width:150px"alt="Guilherme Mariano"/>
           <br />
           <sub><b>Guilherme Mariano</b></sub>
@@ -90,7 +90,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
         <br />
       </td>
       <td align="center" width=15%>
-        <a href="https://github.com/marianaserrao">
+        <a href="https://github.com/marianaserrao" style="text-decoration: none;">
           <img src="https://github.com/marianaserrao.png" width="100%;" style="max-width:150px" alt="Mariana Serrao"/>
           <br />
           <sub><b>Mariana Serrão</b></sub>
@@ -98,7 +98,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
         <br />
       </td>
       <td align="center" width=15%>
-        <a href="https://github.com/murillo-teixeira">
+        <a href="https://github.com/murillo-teixeira" style="text-decoration: none;">
           <img src="https://github.com/murillo-teixeira.png" width="100%;" style="max-width:150px" alt="Murillo Teixeira"/>
           <br />
           <sub><b>Murillo Teixeira</b></sub>
@@ -122,7 +122,7 @@ Our appreciation goes to the OpenAI team for providing foundational AI technolog
 ```bibtex
 @software{voice-over-vision,
   author = {Davi Giordano, Guilherme Mariano, Mariana Serrao and Murillo Teixeira},
-  title = {Voice-Over Vision: slogan},
+  title = {Voice-Over Vision: The future of the internet is accessible},
   month = {March},
   year = {2024},
   url = {https://github.com/voice-over-vision}
