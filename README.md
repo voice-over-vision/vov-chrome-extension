@@ -52,9 +52,9 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
    
 #### 3. **Load the extension in Chrome** (detailed information [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)):
    - Open the _Manage Extensions_ page by navigating to [chrome://extensions/](chrome://extensions/) in your Chrome browser.
-      <div style="padding:20px 0">
-        <img src="./assets/readme/chrome_ext_domain.png" width="380px"/>
-      </div>
+    <br/><br/>
+    <img src="./assets/readme/chrome_ext_domain.png" width="380px"/>
+    <br/><br/>
    - Enable _Developer mode_ by toggling the switch at the top-right corner.
     <br/><br/>
     <img src="./assets/readme/chrome_dev_mode.png" width="220px"/>
@@ -66,7 +66,8 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
    - The extension should now be installed and visible in your Extensions list, you can pin it if you want by clicking the Pin icon.
     <br/><br/>
     <img src="./assets/readme/chrome_pin_ext.png" width="280px"/>
-
+    <br/><br/>
+    
 ## 🌟 Contribution
 
 <table>
