@@ -51,7 +51,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
 #### 2. **Run the back-end server**: Navigate to the [back-end repository](https://github.com/guilherme-francisco/winter_hackaton_backend) and follow the instructions to get it running on `localhost:8000`.
    
 #### 3. **Load the extension in Chrome** (detailed information [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)):
-   - Open the _Manage Extensions_ page by navigating to [chrome://extensions/](chrome://extensions/) in your Chrome browser.
+   - Open the _Manage Extensions_ page by navigating to `chrome://extensions/` in your Chrome browser.
     <br/><br/>
     <img src="./assets/readme/chrome_ext_domain.png" width="380px"/>
     <br/><br/>
@@ -67,7 +67,7 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
     <br/><br/>
     <img src="./assets/readme/chrome_pin_ext.png" width="280px"/>
     <br/><br/>
-    
+
 ## 🌟 Contribution
 
 <table>
