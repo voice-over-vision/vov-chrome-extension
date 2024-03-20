@@ -326,10 +326,10 @@
             });
 
             startLoggingVideoTime();
-            youtubePlayer.pause()
+            executeAfterAds(youtubePlayer, ()=>{youtubePlayer.pause()});
             const videoId = getYouTubeVideoId();
             console.log("Current YouTube Video ID:", videoId);
-            connectWithBackend(videoId);
+            // connectWithBackend(videoId);
         }
     };
 
