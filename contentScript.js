@@ -51,8 +51,10 @@
     }
 
     const connectWithBackend = (youtubeID) => {
+        console.log('aaaaa')
         url = "ws://127.0.0.1:8000/";
         webSocket = new WebSocket(url);
+        console.log("opening WS")
         webSocket.onopen = () => {
             webSocket.send(JSON.stringify({
                 "event": EventTypes.INITIAL_MESSAGE,
@@ -60,6 +62,7 @@
                 "currentTime": youtubePlayer.currentTime
             }));
         };
+        console.log("WS open!")
 
         webSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
@@ -366,8 +369,10 @@
             });
 
         }
-        startLoggingVideoTime();
-        youtubePlayer.pause()
+        executeAfterAds(youtubePlayer, ()=>{
+            youtubePlayer.pause()
+            startLoggingVideoTime();
+        });
         const videoId = getYouTubeVideoId();
         console.log("Current YouTube Video ID:", videoId);
         connectWithBackend(videoId);
@@ -396,6 +401,16 @@
     // This function is called whenever a new video page is detected
     const onNewVideo = () => {
         console.log('New video detected!');
+        lastVideoTime = -1;
+        descriptionDataToPlay = { 'data': [] };
+
+        executeAfterAds(
+            ()=>{
+                const elements = document.querySelectorAll('[class^="ytp-load-progress pauseMoment-"], [class*=" ytp-load-progress pauseMoment-"]');
+                elements.forEach(el => el.parentNode.removeChild(el));
+            }
+        )
+
         newVideoLoaded(); // Call your function to handle new video loading
     };
 
