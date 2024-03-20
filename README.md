@@ -52,13 +52,13 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
    
 #### 3. **Load the extension in Chrome** (detailed information [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)):
    - Open the _Manage Extensions_ page by navigating to [chrome://extensions/](chrome://extensions/) in your Chrome browser.
-  </br><img src="./assets/readme/chrome_ext_domain.png" style="margin:15 0;" width="380px"/>
+  </br><img src="./assets/readme/chrome_ext_domain.png" style="margin:15px 0;" width="380px"/>
    - Enable _Developer mode_ by toggling the switch at the top-right corner.
-  </br><img src="./assets/readme/chrome_dev_mode.png" style="margin:15 0;" width="220px"/>
+  </br><img src="./assets/readme/chrome_dev_mode.png" style="margin:15px 0;" width="220px"/>
    - Click on _Load unpacked_ and select the directory of your cloned repository.
-  </br><img src="./assets/readme/chrome_load_ext.png" style="margin:15 0;" width="280px"/>
+  </br><img src="./assets/readme/chrome_load_ext.png" style="margin:15px 0;" width="280px"/>
    - The extension should now be installed and visible in your Extensions list, you can pin it if you want by clicking the Pin icon.
-  </br><img src="./assets/readme/chrome_pin_ext.png" style="margin:15 0;" width="280px"/>
+  </br><img src="./assets/readme/chrome_pin_ext.png" style="margin:15px 0;" width="280px"/>
 
 ## 🌟 Contribution
 
