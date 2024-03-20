@@ -1,4 +1,4 @@
-const addCheck = ()=>{
+const adCheck = ()=>{
     const ad = document.querySelector('.video-ads')
 
     if (ad.tagName==="DIV"){
@@ -22,7 +22,7 @@ const executeAfterAds = (video, callback) => {
 
     const handleVideoPlaying = () => {
         console.log("Video has started playing.");
-        hasAd = addCheck()
+        hasAd = adCheck()
         
         if(hasAd){
             video.addEventListener('durationchange', handleAdFinish);
