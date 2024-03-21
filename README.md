@@ -21,14 +21,14 @@ We present **Voice-Over Vision**, a tool that transforms YouTube watching for th
 <!-- demos -->
 ## 🎬 Demos
 
-**Demos comming soon!**
+[![Voice-Over Video Demo](https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VID6-y6Nq-UWZwEO_ID_HERE)
 
 <!-- features -->
 ## 🚀 Features
 
 - **Real-Time Audio Description**: Generates audio descriptions for YouTube videos, offering a comprehensive viewing experience for visually impaired users.
 - **Ask The Video**: Answers questions about the video at any time. With just the click of a button (or a keyboard shortcut), the video pauses and a chat opens to clarify any and all questions about the video!
-- **More comming soon!**
+- **More coming soon!**
 
 <details>
 <summary>Work In Progress</summary>
