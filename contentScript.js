@@ -52,7 +52,6 @@
     }
 
     const connectWithBackend = (youtubeID) => {
-        console.log('aaaaa')
         url = "ws://127.0.0.1:8000/";
         webSocket = new WebSocket(url);
         console.log("opening WS")
@@ -410,12 +409,10 @@
         lastVideoTime = -1;
         descriptionDataToPlay = { 'data': [] };
 
-        executeAfterAds(
-            ()=>{
-                const elements = document.querySelectorAll('[class^="ytp-load-progress pauseMoment-"], [class*=" ytp-load-progress pauseMoment-"]');
-                elements.forEach(el => el.parentNode.removeChild(el));
-            }
-        )
+        executeAfterAds(video, ()=>{
+            const elements = document.querySelectorAll('[class^="ytp-load-progress pauseMoment-"], [class*=" ytp-load-progress pauseMoment-"]');
+            elements.forEach(el => el.parentNode.removeChild(el));
+        })
 
         newVideoLoaded(); // Call your function to handle new video loading
     };
