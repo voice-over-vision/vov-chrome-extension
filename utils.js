@@ -15,7 +15,7 @@ let youtubeLeftControls, youtubePlayer;
 // State variables
 let descriptionCheckInterval = null;
 let descriptionEnabled = true; // Initialize the description state as false
-// let lastVideoTime = -1; // Add this to track the last played timestamp
+let lastVideoTime = -1; // Add this to track the last played timestamp
 let descriptionDataToPlay = { 'data': [] };
 let force_volume_down = false
 

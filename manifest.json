@@ -14,13 +14,17 @@
             "js": [
               "utils.js",
               "adHelpers.js", 
+              "controls/index.js",
+              "askTheVideo/index.js",
               "audioDescription/progressBar.js",
               "audioDescription/service.js",
               "audioDescription/index.js",
-              "askTheVideo/chat.js",
               "contentScript.js"
             ],
-            "css": [ "askTheVideo/chat.css" ],
+            "css": [ 
+              "askTheVideo/styles.css",
+              "controls/styles.css" 
+            ],
             "run_at": "document_idle"
         }
     ],
