@@ -1,138 +1,45 @@
 // Self-invoking function to encapsulate the logic
 (() => {
-    // DOM references
-    let youtubeLeftControls, youtubePlayer;
-
-    // State variables
-    let intervalId = null;
-    let descriptionState = true; // Initialize the description state as false
-    const askTheVideoAudio = new Audio(chrome.runtime.getURL("assets/ask_the_video.mp3"));
-    const descriptionOnAudio = new Audio(chrome.runtime.getURL("assets/on.mp3"));
-    const descriptionOffAudio = new Audio(chrome.runtime.getURL("assets/off.mp3"));
-    let lastVideoTime = -1; // Add this to track the last played timestamp
-    let descriptionDataToPlay = { 'data': [] };
-    let force_volume_down = false
-
-    const EventTypes = {
-        INITIAL_MESSAGE: "INITIAL_MESSAGE",
-        PAUSE_MOMENTS: "PAUSE_MOMENTS",
-        AUDIO_DESCRIPTION: "AUDIO_DESCRIPTION"
-    }
-
-    const createProgressBar = (time, index, color) => {
-        const youtubeProgressList = document.getElementsByClassName("ytp-progress-list")[0];
-        const progressBarWidth = youtubeProgressList.offsetWidth;
-
-        // Get the duration of the video from the YouTube player
-        const videoDuration = youtubePlayer.duration;
-
-        // Calculate time per pixel
-        const timePerPixel = videoDuration / progressBarWidth;
-
-        // Calculate position of marker based on time per pixel
-        const timeToPixel = time / timePerPixel;
-
-        const pauseMomentBar = document.createElement("div");
-        pauseMomentBar.style = `left: ${timeToPixel}px; background: ${color}; transform: scaleX(0.008);`;
-        pauseMomentBar.className = `ytp-load-progress pauseMoment-${index}`;
-        youtubeProgressList.appendChild(pauseMomentBar);
-    }
-
-    const showPauseMoments = (pauseMoments) => {
-        pauseMoments.forEach((pauseMoment, index) => {
-            createProgressBar(pauseMoment, index, "rgba(255, 216, 5, 0.86)");
-        })
-    }
-
-    handleAudioDescriptionEvent = (data) => {
-        console.log("Handling audio description event")
-        console.log(data)
-        descriptionDataToPlay.data.push(data);
-        createProgressBar(data['start_timestamp'], data['id'], "#ffff00")
-    }
-
-    const connectWithBackend = (youtubeID) => {
-        url = "ws://127.0.0.1:8000/";
-        webSocket = new WebSocket(url);
-        console.log("opening WS")
-        webSocket.onopen = () => {
-            webSocket.send(JSON.stringify({
-                "event": EventTypes.INITIAL_MESSAGE,
-                "youtubeID": youtubeID,
-                "currentTime": youtubePlayer.currentTime
-            }));
-        };
-        console.log("WS open!")
-
-        webSocket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            console.log("Message from WS: ")
-            console.log(data)
-            const event = data['event'];
-            // Handle incoming message
-            switch (event) {
-                case EventTypes.PAUSE_MOMENTS:
-                    showPauseMoments(data['pause_moments']);
-                    break;
-                case EventTypes.AUDIO_DESCRIPTION:
-                    handleAudioDescriptionEvent(data)
-            }
-        };
-
-    }
-
-    const base64StringToArrayBuffer = (base64) => {
-        var binaryString = atob(base64);
-        var bytes = new Uint8Array(binaryString.length);
-        for (var i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-        }
-        return bytes.buffer;
-    }
 
     // Adjusted interval logic to preload and play description audio
-    const startLoggingVideoTime = () => {
-        if (intervalId !== null) clearInterval(intervalId);
-        intervalId = setInterval(() => {
-            if (youtubePlayer) {
-                if (descriptionState) {
-                    const currentTime = youtubePlayer.currentTime;
-                    // console.log("Current video time:", currentTime);
-                    descriptionDataToPlay.data.forEach((item, _) => {
-                        if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp && Math.abs(currentTime - lastVideoTime) < 2) {
-                            console.log("Playing audio now");
-                            if (item['action'] == 'play') {
-                                youtubePlayer.playbackRate = item['video_speed']
-                                current_volume = youtubePlayer.volume;
-                                force_volume_down = true;
-                                youtubePlayer.volume = 0;
-                            } else youtubePlayer.pause();
+    // const startLoggingVideoTime = () => {
+    //     if (intervalId !== null) clearInterval(intervalId);
+    //     intervalId = setInterval(() => {
+    //         if (youtubePlayer) {
+    //             if (descriptionState) {
+    //                 const currentTime = youtubePlayer.currentTime;
+    //                 // console.log("Current video time:", currentTime);
+    //                 descriptionDataToPlay.data.forEach((item, _) => {
+    //                     if (currentTime >= item.start_timestamp && lastVideoTime < item.start_timestamp && Math.abs(currentTime - lastVideoTime) < 2) {
+    //                         console.log("Playing audio now");
+    //                         if (item['action'] == 'play') {
+    //                             youtubePlayer.playbackRate = item['video_speed']
+    //                             current_volume = youtubePlayer.volume;
+    //                             force_volume_down = true;
+    //                             youtubePlayer.volume = 0;
+    //                         } else youtubePlayer.pause();
 
-                            playAudio(base64StringToArrayBuffer(item['audio_description']), () => {
-                                console.log("Audio finished playing. Resuming video playback...");
-                                youtubePlayer.play();
-                                if (item['action'] == 'play') {
-                                    youtubePlayer.playbackRate = 1
-                                    youtubePlayer.volume = currentVolume;
-                                }
-                            });
+    //                         playAudio(item['audio_description'], () => {
+    //                             console.log("Audio finished playing. Resuming video playback...");
+    //                             youtubePlayer.play();
+    //                             if (item['action'] == 'play') {
+    //                                 youtubePlayer.playbackRate = 1
+    //                                 youtubePlayer.volume = currentVolume;
+    //                             }
+    //                         });
 
-                        }
-                    });
+    //                     }
+    //                 });
 
-                    lastVideoTime = currentTime; // Update lastPlayedTimestamp
-                } else {
-                    lastVideoTime = youtubePlayer.currentTime; // Update lastPlayedTimestamp
-                }
-            } else {
-                console.log("YouTube player not found.");
-            }
-        }, 50);
-    };
-
-    // Global audio context to reuse it efficiently
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let gainNode = audioContext.createGain();
+    //                 lastVideoTime = currentTime; // Update lastPlayedTimestamp
+    //             } else {
+    //                 lastVideoTime = youtubePlayer.currentTime; // Update lastPlayedTimestamp
+    //             }
+    //         } else {
+    //             console.log("YouTube player not found.");
+    //         }
+    //     }, 50);
+    // };
 
     const updateVolume = () => {
         if(force_volume_down) {
@@ -146,47 +53,6 @@
         // Update the gainNode's volume
         if (gainNode) gainNode.gain.value = currentVolume;
     };
-
-    const playAudio = (arrayBuffer, callback) => {
-        console.log("youtube player muted: ", youtubePlayer.muted)
-        if (youtubePlayer.muted) {
-            console.log("Player is muted. Skipping audio playback.");
-            callback(); // Call the callback immediately to continue the logic without playing sound
-            return;
-        }
-
-        audioContext.decodeAudioData(arrayBuffer.slice(0), (audioBuffer) => {
-            const source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            // Connect source to gain node instead of directly to destination
-            source.connect(gainNode);
-            // Connect gain node to audio context destination
-            gainNode.connect(audioContext.destination);
-            source.start(0);
-            source.onended = () => {
-                callback(); // Callback after audio finishes playing
-            };
-        }, (error) => {
-            console.error('Error decoding audio data:', error);
-        });
-    };
-
-    // const playAudio = (arrayBuffer, callback) => {
-    //     // Decode the ArrayBuffer into an AudioBuffer each time before playing
-    //     audioContext.decodeAudioData(arrayBuffer.slice(0), (audioBuffer) => {
-    //         const source = audioContext.createBufferSource();
-    //         source.buffer = audioBuffer;
-    //         source.connect(audioContext.destination);
-    //         source.start(0);
-    //         source.onended = () => {
-    //             callback(); // Call the callback function after the audio finishes playing
-    //             // Consider if you need to close or manage the AudioContext lifecycle here
-    //         };
-    //     }, (error) => {
-    //         console.error('Error decoding audio data:', error);
-    //     });
-    // };
-
 
     const updateButtonIcon = () => {
         const eyeLine = document.querySelector('.describe-btn .vov-eye-line'); // Access the line within the button
@@ -232,85 +98,6 @@
 
         console.log("Description button clicked! Description state is now:", descriptionState);
         updateButtonIcon();
-    };
-
-    const askTheVideoRequest = async (message) => {
-        videoID = getYouTubeVideoId();
-        const apiUrl = `http://127.0.0.1:8000/ask-the-video?youtubeID=${videoID}&timestamp=${youtubePlayer.currentTime}&question=${message}`;
-        const response = await fetch(apiUrl);
-        return (await response.json());
-    }
-    // Function to create chat UI elements
-    const createChatUI = () => {
-        // Chat container
-        const chatContainer = document.createElement("div");
-        chatContainer.id = "vov-chatContainer";
-        chatContainer.style = "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; background-color: rgba(255, 255, 255, 0.6); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 1000; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(10px);";
-
-        // Chat UI title
-        const chatTitle = document.createElement("div");
-        chatTitle.textContent = "Ask the video!";
-        chatTitle.style = "padding: 10px; color: black; text-align: center; font-size: 24px;";
-        chatContainer.appendChild(chatTitle);
-
-        // Chat messages display area
-        const chatDisplay = document.createElement("div");
-        chatDisplay.id = "vov-chatDisplay";
-        chatDisplay.style = "flex: 1; overflow-y: auto; padding: 20px;";
-        chatContainer.appendChild(chatDisplay);
-
-        // Input area
-        const chatInputContainer = document.createElement("div");
-        chatInputContainer.style = "padding: 20px;";
-        const chatInput = document.createElement("input");
-        chatInput.id = "vov-chatInput";
-        chatInput.type = "text";
-        chatInput.placeholder = "Type your question here...";
-        chatInput.style = "outline:none; width: calc(100% - 40px); padding: 10px; border: 1px solid #ccc; border-radius: 4px;";
-        chatInputContainer.appendChild(chatInput);
-        chatContainer.appendChild(chatInputContainer);
-
-        // Append the chat container to the player
-        const player = document.getElementById("movie_player") || document.getElementsByClassName("html5-video-player")[0];
-        if (player) {
-            player.appendChild(chatContainer);
-        } else {
-            console.error("YouTube player not found.");
-            return;
-        }
-
-        chatInput.addEventListener("keydown", async (e) => {
-            if (e.key === "Enter" || e.keyCode === 13) {
-                e.preventDefault();
-                const message = chatInput.value.trim();
-                if (message) {
-                    // User message (right-aligned)
-                    const userMessageElement = document.createElement("div");
-                    userMessageElement.textContent = message;
-                    userMessageElement.style = "margin-bottom: 10px; font-size:12px; background-color: #f1f1f1; padding: 10px; border-radius: 4px; text-align: right; color: black; width: fit-content; margin-left: auto; scrollbar-width: thin; scrollbar-color: #6e00ff #e0e0e0;";
-                    chatDisplay.appendChild(userMessageElement);
-
-                    chatInput.value = "";
-                    chatDisplay.scrollTop = chatDisplay.scrollHeight;
-                    
-                    response = await askTheVideoRequest(message);
-                    const responseMessageElement = document.createElement("div");
-                    responseMessageElement.textContent = response['answer'];
-                    playAudio(base64StringToArrayBuffer(response['audio_description']), () => {});
-                    responseMessageElement.style = "margin-bottom: 10px; font-size:12px; background-color: #007bff; padding: 10px; border-radius: 4px; text-align: left; color: white; width: fit-content; margin-right: auto;";
-                    chatDisplay.appendChild(responseMessageElement);
-                    chatDisplay.scrollTop = chatDisplay.scrollHeight;
-                }
-            } else if (e.ctrlKey && (e.key === 'q' || e.key === 'Q')) {
-                e.preventDefault();
-            } else {
-                e.stopPropagation();
-            }
-        }, true);
-
-        chatInput.addEventListener("keyup", (e) => {
-            e.stopPropagation();
-        }, true);
     };
 
     // Function to toggle chat UI visibility
@@ -376,7 +163,7 @@
         }
         executeAfterAds(youtubePlayer, ()=>{
             youtubePlayer.pause()
-            startLoggingVideoTime();
+            createDescriptionPlayer();
         });
         const videoId = getYouTubeVideoId();
         console.log("Current YouTube Video ID:", videoId);
@@ -406,7 +193,7 @@
     // This function is called whenever a new video page is detected
     const onNewVideo = () => {
         console.log('New video detected!');
-        lastVideoTime = -1;
+        // lastVideoTime = -1;
         descriptionDataToPlay = { 'data': [] };
 
         executeAfterAds(video, ()=>{
