@@ -21,7 +21,7 @@ We present **Voice-Over Vision**, a tool that transforms YouTube watching for th
 <!-- demos -->
 ## 🎬 Demos
 
-[![Voice-Over Video Demo](https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VID6-y6Nq-UWZwEO_ID_HERE)
+[![Voice-Over Video Demo](https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg)](https://www.youtube.com/watch?v=6-y6Nq-UWZw)
 
 <!-- features -->
 ## 🚀 Features
