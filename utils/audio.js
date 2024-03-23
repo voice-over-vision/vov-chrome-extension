@@ -1,13 +1,3 @@
-const getYouTubeVideoId = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('v');
-};
-
-const getYoutubePlayer = () => {
-    const youtubePlayer = document.getElementsByClassName("video-stream")[0];
-    return youtubePlayer
-}
-
 const base64StringToArrayBuffer = (base64) => {
     var binaryString = atob(base64);
     var bytes = new Uint8Array(binaryString.length);
@@ -19,7 +9,6 @@ const base64StringToArrayBuffer = (base64) => {
 
 const playAudio = (b64Audio, callback) => {
     arrayBuffer = base64StringToArrayBuffer(b64Audio)
-    const youtubePlayer = getYoutubePlayer();
     console.log("youtube player muted: ", youtubePlayer.muted)
     if (youtubePlayer.muted) {
         console.log("Player is muted. Skipping audio playback.");
@@ -44,9 +33,8 @@ const playAudio = (b64Audio, callback) => {
 };
 
 const updateVolume = () => {
-    youtubePlayer = getYoutubePlayer();
-    if(force_volume_down) {
-        force_volume_down = false;
+    if(freezeVovVolume) {
+        freezeVovVolume = false;
         return;
     }
     const currentVolume = youtubePlayer.muted ? 0 : youtubePlayer.volume;

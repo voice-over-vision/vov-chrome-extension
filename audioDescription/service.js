@@ -19,7 +19,6 @@ handleAudioDescriptionEvent = (data) => {
 }
 
 const connectWithBackend = (youtubeID) => {
-    youtubePlayer = getYoutubePlayer();
     webSocket = new WebSocket(url);
     console.log("opening WS")
 

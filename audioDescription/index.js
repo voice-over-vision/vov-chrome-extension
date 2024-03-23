@@ -1,7 +1,6 @@
 const createDescriptionPlayer = () => {
     if (descriptionCheckInterval !== null) clearInterval(descriptionCheckInterval);
     intervalTime = 50 //ms
-    youtubePlayer = getYoutubePlayer();
 
     descriptionCheckInterval = setInterval(() => {
         if (youtubePlayer) {
@@ -15,7 +14,7 @@ const createDescriptionPlayer = () => {
 
                         if (item['action'] == 'play') {
                             youtubePlayer.playbackRate = item['video_speed']
-                            force_volume_down = true;
+                            freezeVovVolume = true;
                             youtubePlayer.volume = 0;
                         } else youtubePlayer.pause();
 

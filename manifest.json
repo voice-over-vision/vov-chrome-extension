@@ -20,7 +20,7 @@
               "audioDescription/progressBar.js",
               "audioDescription/service.js",
               "audioDescription/index.js",
-              "shared.js",
+              "utils/video.js",
               "utils/videoChangeDetection.js", 
               "contentScript.js"
             ],

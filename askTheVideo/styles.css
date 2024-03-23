@@ -1,4 +1,4 @@
-#vov-chatContainer{
+#vov-chat-container{
     position: absolute; 
     top: 50%; 
     left: 50%; 
@@ -15,24 +15,24 @@
     display: none;
 }
 
-#vov-chatTitle{
+#vov-chat-title{
     padding: 10px; 
     color: black; 
     text-align: center; 
     font-size: 24px;
 }
 
-#vov-chatDisplay{
+#vov-chat-display{
     flex: 1; 
     overflow-y: auto; 
     padding: 20px;
 }
 
-#vov-chatInputContainer{
+#vov-chat-input-container{
     padding: 20px;
 }
 
-#vov-chatInput{
+#vov-chat-input{
     outline:none; 
     width: calc(100% - 40px); 
     padding: 10px; 
@@ -40,7 +40,7 @@
     border-radius: 4px;
 }
 
-#vov-chatUserMessage{
+#vov-chat-user-message{
     margin-bottom: 10px; 
     font-size:12px; 
     background-color: #f1f1f1; 
@@ -54,7 +54,7 @@
     scrollbar-color: #6e00ff #e0e0e0;
 }
 
-#vov-chatResponseMessage{
+#vov-chat-response-message{
     margin-bottom: 10px; 
     font-size:12px; 
     background-color: #007bff; 

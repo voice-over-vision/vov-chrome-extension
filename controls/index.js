@@ -38,8 +38,8 @@ const changeDescriptionState = () => {
 };
 
 const toggleChatUI = () => {
-    const chatContainer = document.getElementById("vov-chatContainer");
-    const chatInput = document.getElementById("vov-chatInput");
+    const chatContainer = document.getElementById("vov-chat-container");
+    const chatInput = document.getElementById("vov-chat-input");
     console.log("Toggling chat UI visibility...")
     if (chatContainer.style.display === "none") {
         chatContainer.style.display = "flex";
