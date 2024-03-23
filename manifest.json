@@ -12,13 +12,16 @@
         {
             "matches": ["*://www.youtube.com/watch*"],
             "js": [
-              "utils.js",
-              "adHelpers.js", 
+              "utils/store.js",
+              "utils/audio.js",
+              "utils/adDetection.js", 
               "controls/index.js",
               "askTheVideo/index.js",
               "audioDescription/progressBar.js",
               "audioDescription/service.js",
               "audioDescription/index.js",
+              "shared.js",
+              "utils/videoChangeDetection.js", 
               "contentScript.js"
             ],
             "css": [ 

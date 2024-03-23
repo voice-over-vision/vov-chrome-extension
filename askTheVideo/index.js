@@ -20,7 +20,7 @@ const askTheVideoRequest = async (message) => {
 }
 
 // Function to create chat UI elements
-const createChatUI = () => {
+const createATVChatUI = () => {
     // Chat container
     const chatContainer = document.createElement("div");
     chatContainer.id = "vov-chatContainer";

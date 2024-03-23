@@ -1,4 +1,9 @@
 const url = "ws://127.0.0.1:8000/";
+const EventTypes = {
+    INITIAL_MESSAGE: "INITIAL_MESSAGE",
+    PAUSE_MOMENTS: "PAUSE_MOMENTS",
+    AUDIO_DESCRIPTION: "AUDIO_DESCRIPTION"
+}
 
 const showPauseMoments = (pauseMoments) => {
     pauseMoments.forEach((pauseMoment, index) => {

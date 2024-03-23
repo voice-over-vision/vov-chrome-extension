@@ -91,4 +91,20 @@ const createControls = () => {
     questionBtn.addEventListener("click", () => {
         toggleChatUI();
     });
+
+    // Shortcut to toggle the description feature
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.altKey && (e.key === 'd' || e.key === 'D')) {
+            e.preventDefault();
+            changeDescriptionState();
+        }
+    });
+    
+    // Shortcut to toggle the description feature
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && (e.key === 'q' || e.key === 'Q')) {
+            e.preventDefault();
+            toggleChatUI();
+        }
+    });
 }
