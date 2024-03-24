@@ -1,0 +1,67 @@
+#vov-chat-container{
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 60%; 
+    height: 60%; 
+    background-color: rgba(255, 255, 255, 0.6); 
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); 
+    flex-direction: column; 
+    z-index: 1000; 
+    backdrop-filter: blur(30px); 
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+}
+
+#vov-chat-title{
+    padding: 10px; 
+    color: black; 
+    text-align: center; 
+    font-size: 24px;
+}
+
+#vov-chat-display{
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 20px;
+}
+
+#vov-chat-input-container{
+    padding: 20px;
+}
+
+#vov-chat-input{
+    outline:none; 
+    width: calc(100% - 40px); 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+}
+
+#vov-chat-user-message{
+    margin-bottom: 10px; 
+    font-size:12px; 
+    background-color: #f1f1f1; 
+    padding: 10px; 
+    border-radius: 4px; 
+    text-align: right; 
+    color: black; 
+    width: fit-content; 
+    margin-left: auto; 
+    scrollbar-width: thin; 
+    scrollbar-color: #6e00ff #e0e0e0;
+}
+
+#vov-chat-response-message{
+    margin-bottom: 10px; 
+    font-size:12px; 
+    background-color: #007bff; 
+    padding: 10px; 
+    border-radius: 4px; 
+    text-align: left; 
+    color: white; 
+    width: fit-content; 
+    margin-right: auto;
+}

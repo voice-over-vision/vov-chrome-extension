@@ -1,0 +1,15 @@
+.vov-describe-btn {
+    width: 48px; 
+    height: 48px; 
+    overflow: visible; 
+    transition: opacity 500ms ease-in-out; 
+    cursor: pointer;
+}
+
+.vov-question-btn {
+    width: 48px; 
+    height: 48px; 
+    overflow: visible; 
+    transition: opacity 500ms ease-in-out; 
+    cursor: pointer;
+}  

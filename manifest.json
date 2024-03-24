@@ -11,7 +11,23 @@
     "content_scripts": [
         {
             "matches": ["*://www.youtube.com/watch*"],
-            "js": ["adHelpers.js", "contentScript.js"],
+            "js": [
+              "utils/store.js",
+              "utils/audio.js",
+              "utils/adDetection.js", 
+              "controls/index.js",
+              "askTheVideo/index.js",
+              "audioDescription/progressBar.js",
+              "audioDescription/service.js",
+              "audioDescription/index.js",
+              "utils/video.js",
+              "utils/videoChangeDetection.js", 
+              "contentScript.js"
+            ],
+            "css": [ 
+              "askTheVideo/styles.css",
+              "controls/styles.css" 
+            ],
             "run_at": "document_idle"
         }
     ],
