@@ -125,9 +125,9 @@ git clone https://github.com/voice-over-vision/vov-chrome-extension.git
 
 We extend our heartfelt thanks to the developers and community behind Chroma DB for their exceptional AI-native open-source embedding database, a crucial component in our mission to create an accessibility tool for the visually impaired. ChromaDB's robust and efficient data management capabilities have been pivotal in our efforts to make a positive impact.
 
-### GPT-4
+### Gemini
 
-Our appreciation goes to the OpenAI team for providing foundational AI technology for our project. The robustness of GPT-4 was instrumental for our project's natural language processing and image processing capabilities.
+Our appreciation goes to the Google team for providing foundational AI technology for our project. The robustness of Gemini was instrumental in our project's natural language processing and image processing capabilities.
 
 <!-- citation -->
 ## 📄 Citation
